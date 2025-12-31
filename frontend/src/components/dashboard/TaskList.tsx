@@ -35,7 +35,7 @@ export const TaskList = () => {
 
   useEffect(() => {
     loadTasks();
-  }, [status, priority]);
+  }, [status, priority, loadTasks]);
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(e.target.value);

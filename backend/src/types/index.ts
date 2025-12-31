@@ -43,7 +43,8 @@ export type ErrorCode =
   | 'EMAIL_EXISTS'
   | 'USER_NOT_FOUND'
   | 'INVALID_CREDENTIALS'
-  | 'VALIDATION_ERROR';
+  | 'VALIDATION_ERROR'
+  | 'INTERNAL_ERROR';
 
 export interface ApiResponse<T = unknown> {
   success: boolean;

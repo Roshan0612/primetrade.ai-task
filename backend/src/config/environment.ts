@@ -7,11 +7,20 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
+
+function requireEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Environment variable ${name} is required but was not provided.`);
+  }
+  return value;
+}
+
 export const env = {
   PORT: parseInt(process.env.PORT || '5000', 10),
   NODE_ENV: process.env.NODE_ENV || 'development',
-  MONGODB_URI: process.env.MONGODB_URI ,
-  JWT_SECRET: process.env.JWT_SECRET ,
+  MONGODB_URI: requireEnv('MONGODB_URI'),
+  JWT_SECRET: requireEnv('JWT_SECRET'),
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '24h',
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import type { LoginRequest } from '@/types';
@@ -9,7 +9,6 @@ import { login } from '@/lib/auth';
 
 export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -17,11 +16,15 @@ export default function LoginPage() {
   const [apiError, setApiError] = useState('');
   const [sessionExpired, setSessionExpired] = useState(false);
 
-  useEffect(() => {
-    if (searchParams.get('expired') === 'true') {
-      setSessionExpired(true);
-    }
-  }, [searchParams]);
+  function SearchParamsEffect() {
+    const searchParams = useSearchParams();
+    useEffect(() => {
+      if (searchParams.get('expired') === 'true') {
+        setSessionExpired(true);
+      }
+    }, [searchParams]);
+    return null;
+  }
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -63,6 +66,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 fade-in">
+      <Suspense>
+        <SearchParamsEffect />
+      </Suspense>
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-lg p-8 fade-in-up card-float">
           <h1 className="text-3xl font-bold text-gray-900 mb-2 text-center">Welcome Back</h1>
@@ -138,7 +144,7 @@ export default function LoginPage() {
 
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-center text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/auth/register" className="text-blue-600 hover:text-blue-700 font-semibold">
                 Sign up here
               </Link>

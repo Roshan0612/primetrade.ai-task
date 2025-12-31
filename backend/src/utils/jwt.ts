@@ -2,14 +2,16 @@ import jwt from 'jsonwebtoken';
 import { env } from '../config/environment.js';
 import type { JwtPayload } from '../types/index.js';
 
+
 export const generateToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): string => {
-  return jwt.sign(payload, env.JWT_SECRET || 'default_secret', {
+  return (jwt.sign as any)(payload, env.JWT_SECRET, {
     expiresIn: env.JWT_EXPIRES_IN,
   });
 };
 
+
 export const verifyToken = (token: string): JwtPayload => {
-  return jwt.verify(token, env.JWT_SECRET || 'default_secret') as JwtPayload;
+  return jwt.verify(token, env.JWT_SECRET) as JwtPayload;
 };
 
 export const decodeToken = (token: string): JwtPayload | null => {

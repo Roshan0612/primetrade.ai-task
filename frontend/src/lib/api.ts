@@ -30,14 +30,16 @@ export class ApiError extends Error {
   }
 }
 
+
 export const apiCall = async <T = unknown>(
   endpoint: string,
   options: RequestInit & { headers?: Record<string, string> } = {}
 ): Promise<T> => {
   const token = getToken();
+  const safeHeaders = (options.headers && typeof options.headers === 'object' && !Array.isArray(options.headers)) ? options.headers : {};
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...safeHeaders,
   };
 
   if (token) {

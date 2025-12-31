@@ -33,12 +33,12 @@ export const authMiddleware = (
     req.user = payload;
     next();
   } catch (error) {
-    let code = ERROR_CODES.INVALID_TOKEN;
+    let code: import('../types/index.js').ErrorCode = ERROR_CODES.INVALID_TOKEN;
     let message = 'Invalid token';
 
     if (error instanceof Error) {
       if (error.message.includes('expired')) {
-        code = 'TOKEN_EXPIRED'; // Add this to your ERROR_CODES type
+        code = ERROR_CODES.TOKEN_EXPIRED;
         message = 'Token has expired. Please log in again.';
       } else if (error.message.includes('malformed') || error.message.includes('invalid')) {
         message = 'Invalid or malformed token';

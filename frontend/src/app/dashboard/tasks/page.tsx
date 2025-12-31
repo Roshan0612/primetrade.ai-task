@@ -41,7 +41,7 @@ export default function TasksPage() {
 
   useEffect(() => {
     loadTasks(1);
-  }, [status, priority, search]);
+  }, [status, priority, search, loadTasks]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
