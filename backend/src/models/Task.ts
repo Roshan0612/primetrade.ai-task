@@ -4,7 +4,7 @@ import type { TaskDocument } from '../types/index.js';
 const taskSchema = new Schema<TaskDocument>(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },

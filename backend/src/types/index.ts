@@ -36,11 +36,20 @@ export interface JwtPayload {
   exp?: number;
 }
 
+export type ErrorCode =
+  | 'INVALID_TOKEN'
+  | 'TOKEN_EXPIRED'
+  | 'UNAUTHORIZED'
+  | 'EMAIL_EXISTS'
+  | 'USER_NOT_FOUND'
+  | 'INVALID_CREDENTIALS'
+  | 'VALIDATION_ERROR';
+
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: {
-    code: string;
+    code: ErrorCode;
     message: string;
     statusCode: number;
   };
